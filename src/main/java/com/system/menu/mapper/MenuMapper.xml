@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper    
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.system.menu.mapper.MenuMapper">
+     <resultMap type="com.system.menu.bean.Menu" id="MenuResult">
+       <id column="id" property="id"/>
+       <result column="name" property="name"/>
+       <result column="parentId" property="_parentId"/>
+       <result column="href" property="href"/>
+       <result column="level" property="level"/>
+       <result column="sequence" property="sequence"/>
+       <result column="flag" property="flag"/>
+       <result column="picture" property="picture"/>
+     </resultMap>
+     
+     <resultMap type="com.utils.bean.ZtreeBean" id="ztreeResult">
+       <id column="id" property="id"/>
+       <result column="parentId" property="pId"/>
+       <result column="name" property="name"/>
+     </resultMap>
+    
+    <select id="getAll" resultMap="MenuResult" parameterType="int">
+        select *
+          from system_menu
+               <if test="flag != null and flag != '' ">
+         where flag = true
+               </if>
+         order by parentId,sequence;
+    </select>
+    
+    <insert id="addMenu" useGeneratedKeys="true" keyProperty="id" parameterType="com.system.menu.bean.Menu">
+   insert into system_menu (name,href,parentId,level,sequence,flag,picture) 
+        values (#{name},#{href},#{_parentId},#{level},#{sequence},#{flag},#{picture});
+    </insert>
+    
+    <update id="updateMenu" parameterType="com.system.menu.bean.Menu">
+        update system_menu 
+         <set>
+                name  = #{name},   
+                href  = #{href},   
+                sequence  = #{sequence},   
+                flag  = #{flag},   
+                picture = #{picture}
+        </set>
+         where id = #{id};
+    </update>
+    
+    <delete id="deleteMenu" parameterType="int">
+        delete 
+          from system_menu 
+         where id = #{id};
+    </delete>
+    
+    
+     <select id="getTreeMenu" resultMap="ztreeResult">
+        select * 
+          from system_menu 
+         where flag = true ;
+     </select>
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper    
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.personnel.department.mapper.DepartmentMapper">
+     <resultMap type="com.personnel.department.bean.Department" id="DepartmentResult">
+       <id column="id" property="id"/>
+       <result column="parent_name" property="parentName"/>
+       <result column="root_name" property="rootName"/>
+       <result column="parentId" property="_parentId"/>
+     </resultMap>
+     
+    <select id="getAll" resultMap="DepartmentResult">
+        select * 
+          from personnel_department 
+         order by parentId,sequence;
+    </select>
+    
+    <select id="getSelect" resultMap="DepartmentResult">
+        select * 
+          from personnel_department 
+         where flag=true 
+         order by parentId,sequence;
+    </select>
+    
+    <insert id="addDepartment" useGeneratedKeys="true" keyProperty="id" parameterType="com.personnel.department.bean.Department">
+        insert into personnel_department (name,parentId,parent_name,root_name,flag,sequence) 
+             values (#{name},#{_parentId},#{parentName},#{rootName},#{flag},#{sequence}) ;
+    </insert>
+    
+    <delete id="deleteDepartment" parameterType="java.lang.Integer" >
+        delete 
+          from personnel_department 
+         where id = #{id};
+    </delete>
+    
+    <update id="updateDepartment" parameterType="com.personnel.department.bean.Department">
+        update personnel_department 
+           set name = #{name}, sequence = #{sequence}, flag = #{flag} 
+         where id = #{id};
+    </update>
+</mapper>

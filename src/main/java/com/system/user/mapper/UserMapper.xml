@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper    
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.system.user.mapper.UserMapper">
+     <resultMap type="com.system.user.bean.User" id="UserResult">
+       <id column="id" property="id"/>
+       <result column="china_name" property="userName"/>
+       <result column="china_password" property="passWord"/>
+       <result column="flag" property="flag"/>
+       
+       <result column="eName" property="employeeName"/>
+       <result column="indate" property="inDate"/>
+       <result column="outdate" property="outDate"/>
+       <result column="pName" property="departmentName"/>
+       <result column="cName" property="companyName"/>
+     </resultMap>
+     
+     <resultMap type="com.system.menu.bean.Menu" id="MenuResult">
+       <id column="id" property="id"/>
+       <result column="name" property="name"/>
+       <result column="parentId" property="_parentId"/>
+       <result column="href" property="href"/>
+       <result column="level" property="level"/>
+       <result column="sequence" property="sequence"/>
+       <result column="flag" property="flag"/>
+       <result column="picture" property="picture"/>
+     </resultMap>
+     
+     <select id="getAll" resultMap="UserResult" parameterType="int">
+        select su.*,pe.name as eName,pe.indate indate,pe.outdate as outdate,
+               pd.name as pName,pd.root_name as cName
+          from system_user su 
+     left join system_user_employee sue
+            on su.id = sue.userId 
+     left join personnel_employee pe 
+            on pe.id = sue.employeeId 
+     left join personnel_department pd
+            on pd.id = pe.departmentId
+         LIMIT #{offset},#{limit};
+     </select>
+     
+     <select id="countAll" resultType="int">
+        select count(*)  
+          from system_user;
+     </select>
+     
+     <select id="getRoleAll" resultType="com.system.role.bean.Role">
+        select *
+          from system_role
+         where flag = true
+     </select>
+     
+     <insert id="saveUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.system.role.bean.Role">
+   insert into system_user (china_name,china_password,flag)
+        values (#{userName}, #{passWord}, true);
+     </insert>
+   
+     <insert id="saveUserEmployee">
+   insert into system_user_employee (userId,employeeId)
+        values (#{userId}, #{employeeId});
+     </insert>
+     
+     <insert id="saveUserRole">
+   insert into system_user_role (userId,roleId)
+        values (#{userId}, #{roleId}); 
+     </insert>
+     <select id="selectUserLogin" resultMap="UserResult">
+        select su.id as id, pe.name as eName
+          from system_user su 
+     left join system_user_employee sue
+            on su.id = sue.userId 
+     left join personnel_employee pe 
+            on pe.id = sue.employeeId 
+         where su.china_name = #{userName}
+           and su.china_password = #{passWord}
+     </select>
+     
+     <select id="selectMenu" resultMap="MenuResult">
+          select 
+        distinct sm.*
+		    from system_user su 
+	   left join system_user_role sur 
+	          on su.id = sur.userId 
+	   left join system_role sr 
+		      on sr.id = sur.roleId 
+	   left join system_role_menu srm
+		      on sr.id = srm.roleId 
+	   left join system_menu sm 
+		      on srm.menuId = sm.id 
+		   where su.id = #{userId}
+		order by sm.parentId,sm.sequence
+     </select>
+     
+     <select id="selectUserByCondition" resultMap="UserResult" >
+        select su.*,pe.name as eName,pe.indate indate,pe.outdate as outdate,
+               pd.name as pName,pd.root_name as cName
+          from system_user su 
+     left join system_user_employee sue
+            on su.id = sue.userId 
+     left join personnel_employee pe 
+            on pe.id = sue.employeeId 
+     left join personnel_department pd
+            on pd.id = pe.departmentId
+         where 1=1 
+               <if test="userName != null and userName != '' ">
+           and su.china_name = #{userName}
+               </if>
+               <if test="employeeName != null and employeeName != '' ">
+           and pe.name = #{employeeName}
+               </if>
+               <if test="flag != null  ">
+           and su.flag = #{flag}
+               </if>
+         LIMIT #{offset},#{limit};
+     </select>
+     
+     <select id="countByCondition" resultType="int" parameterType="com.system.user.bean.User">
+        select count(*)  
+          from system_user su 
+     left join system_user_employee sue
+            on su.id = sue.userId 
+     left join personnel_employee pe 
+            on pe.id = sue.employeeId 
+         where 1=1 
+               <if test="userName != null and userName != '' ">
+           and su.china_name = #{userName}
+               </if>
+               <if test="employeeName != null and employeeName != '' ">
+           and pe.name = #{employeeName}
+               </if>
+               <if test="flag != null and flag != '' ">
+           and su.flag = #{flag}
+               </if>
+     </select>
+     
+</mapper>

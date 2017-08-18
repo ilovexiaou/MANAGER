@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/task
+   		http://www.springframework.org/schema/task/spring-task-4.0.xsd">
+	<!-- 处理器，处理器映射器，处理器适配器，视图解析器,注解扫描 -->
+	<context:component-scan base-package="com.system">
+	   <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service" />  
+	</context:component-scan>
+	<context:component-scan base-package="com.base"></context:component-scan>
+	<context:component-scan base-package="com.utils"></context:component-scan>
+	<context:component-scan base-package="com.personnel">
+	   <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service" />
+	</context:component-scan>
+	<mvc:annotation-driven></mvc:annotation-driven>
+	<bean id="jspView"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- <property name="prefix" value="/WEB-INF"/> -->
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	<mvc:annotation-driven /> 
+	<mvc:resources location="/assets/" mapping="/assets/**"/> 
+	<mvc:resources location="/css/" mapping="/css/**"/> 
+	<mvc:resources location="/img/" mapping="/img/**"/>
+	<mvc:resources location="/js/" mapping="/js/**"/>
+	<mvc:resources location="/fonts/" mapping="/fonts/**"/>
+    <mvc:resources location="/" mapping="/**/*.js"/>
+	<!-- 配置拦截器 -->
+	<mvc:interceptors>
+		<!-- 多个拦截器，顺序执行 -->
+		<!-- 配置登陆拦截器 -->
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/login**"/> 
+			<mvc:exclude-mapping path="/reflash**"/> 
+			<mvc:exclude-mapping path="/quitLogin**"/> 
+			<mvc:exclude-mapping path="/css/**"/> 
+			<mvc:exclude-mapping path="/img/**"/> 
+			<mvc:exclude-mapping path="/fonts/**"/> 
+			<mvc:exclude-mapping path="/js/**"/> 
+			<bean class="com.base.login.filter.LoginHandlerIntercepter"></bean>
+		</mvc:interceptor>
+		<!-- ..... -->
+	</mvc:interceptors>
+    <bean id="jobFactory" class="com.utils.quartz.service.JobFactory"></bean>  
+    <bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
+        <property name="jobFactory" ref="jobFactory"></property>  
+    </bean> 
+    <!-- 上传-->
+    <bean id="multipartResolver"
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="209715200" />   
+        <property name="defaultEncoding" value="UTF-8" />
+        <property name="resolveLazily" value="true" />
+    </bean>
+    <!-- json -->
+    <bean  class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">  
+	</bean>  
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">  
+	    <property name="messageConverters">  
+	        <list>  
+	            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />  
+	        </list>  
+	    </property>  
+    </bean> 
+    <aop:aspectj-autoproxy proxy-target-class="true">  
+</aop:aspectj-autoproxy>
+</beans>

@@ -1,0 +1,81 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/task
+   		http://www.springframework.org/schema/task/spring-task-4.0.xsd
+		http://code.alibabatech.com/schema/dubbo        
+		http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+		
+		<context:component-scan base-package="com.personnel"></context:component-scan>	
+		<context:component-scan base-package="com.system"></context:component-scan>	
+		<context:component-scan base-package="com.base"></context:component-scan>	
+		<context:component-scan base-package="com.utils"></context:component-scan>	
+		
+		
+		<bean id="propertyConfigurator" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> 
+			<property name="location" value="classpath:jdbc.properties"></property>
+		</bean>
+		
+		<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+			<property name="driverClassName" value="${driver}"></property>
+			<property name="url" value="${url}"></property>
+			<property name="username" value="${username}"></property>
+			<property name="password" value="${password}"></property>
+		</bean>
+		
+		<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+			<property name="dataSource" ref="dataSource"></property>
+			<property name="mapperLocations">
+            <array>
+                <value>classpath:com/personnel/employee/mapper/*.xml"</value>
+                <value>classpath:com/personnel/department/mapper/*.xml"</value>
+                <value>classpath:com/system/user/mapper/*.xml"</value>
+                <value>classpath:com/system/menu/mapper/*.xml"</value>
+                <value>classpath:com/system/role/mapper/*.xml"</value>
+                <value>classpath:com/system/dictionary/mapper/*.xml"</value>
+                <value>classpath:com/system/template/process/mapper/*.xml"</value>
+                <value>classpath:com/system/template/record/mapper/*.xml"</value>
+                <value>classpath:com/personnel/vacation/mapper/*.xml"</value>
+                <value>classpath:com/personnel/message/mapper/*.xml"</value>
+                <value>classpath:com/utils/quartz/mapper/*.xml"</value>
+            </array>
+            </property>
+			<!-- <property name="mapperLocations" value="classpath:com/personnel/employee/mapper/*.xml"></property> -->
+		</bean>
+		
+		<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+			<property name="basePackage" 
+			value="
+			com.personnel.employee.mapper,
+			com.personnel.department.mapper,
+			com.system.user.mapper,
+			com.system.menu.mapper,
+			com.system.role.mapper,
+			com.system.dictionary.mapper,
+			com.system.template.process.mapper,
+			com.system.template.record.mapper,
+			com.personnel.vacation.mapper,
+			com.personnel.message.mapper,
+			com.utils.quartz.mapper,
+			">
+			</property>
+			<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+		</bean>
+		
+		<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+			<property name="dataSource" ref="dataSource"></property>
+		</bean>
+		<tx:annotation-driven transaction-manager="transactionManager"/>
+</beans>

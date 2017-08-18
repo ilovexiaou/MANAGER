@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<entry key="app_preset_prof_preset_name">Text Launch Configuration</entry>
+<entry key="profiler.settings.sampling.interval">10</entry>
+<entry key="app_preset_prof_preset_filter_s"/>
+<entry key="app_preset_prof_preset_filter_p">com.base.constant.*,&#13;
+com.base.login.controller.*,&#13;
+com.base.login.domain.*,&#13;
+com.base.login.filter.*,&#13;
+com.personnel.department.bean.*,&#13;
+com.personnel.department.controller.*,&#13;
+com.personnel.department.mapper.*,&#13;
+com.personnel.department.service.*,&#13;
+com.personnel.employee.bean.*,&#13;
+com.personnel.employee.controller.*,&#13;
+com.personnel.employee.mapper.*,&#13;
+com.personnel.employee.service.*,&#13;
+com.personnel.message.bean.*,&#13;
+com.personnel.message.controller.*,&#13;
+com.personnel.message.mapper.*,&#13;
+com.personnel.message.service.*,&#13;
+com.personnel.vacation.bean.*,&#13;
+com.personnel.vacation.controller.*,&#13;
+com.personnel.vacation.mapper.*,&#13;
+com.personnel.vacation.service.*,&#13;
+com.system.auto.controller.*,&#13;
+com.system.auto.service.*,&#13;
+com.system.dictionary.bean.*,&#13;
+com.system.dictionary.controller.*,&#13;
+com.system.dictionary.mapper.*,&#13;
+com.system.dictionary.service.*,&#13;
+com.system.menu.bean.*,&#13;
+com.system.menu.controller.*,&#13;
+com.system.menu.mapper.*,&#13;
+com.system.menu.service.*,&#13;
+com.system.role.bean.*,&#13;
+com.system.role.controller.*,&#13;
+com.system.role.mapper.*,&#13;
+com.system.role.service.*,&#13;
+com.system.start.*,&#13;
+com.system.template.process.bean.*,&#13;
+com.system.template.process.controller.*,&#13;
+com.system.template.process.mapper.*,&#13;
+com.system.template.process.service.*,&#13;
+com.system.template.record.bean.*,&#13;
+com.system.template.record.mapper.*,&#13;
+com.system.template.record.service.*,&#13;
+com.system.user.bean.*,&#13;
+com.system.user.controller.*,&#13;
+com.system.user.mapper.*,&#13;
+com.system.user.service.*,&#13;
+com.utils.bean.*,&#13;
+com.utils.guava.cache.*,&#13;
+com.utils.json.*,&#13;
+com.utils.quartz.bean.*,&#13;
+com.utils.quartz.mapper.*,&#13;
+com.utils.quartz.service.*,&#13;
+com.utils.quartz.test.*,&#13;
+com.utils.random.*,&#13;
+com.utils.session.*</entry>
+<entry key="profiler.settings.n.profiled.threads.limit">32</entry>
+<entry key="app_preset_prof_preset_alloc_p">10</entry>
+<entry key="profiler.settings.instrument.method.invoke">true</entry>
+<entry key="app_preset_"/>
+<entry key="profiler.settings.obj.alloc.stack.sampling.depth">0</entry>
+<entry key="app_preset_prof_preset_samplingRefreshRate_s">1000</entry>
+<entry key="app_preset_prof_preset_stacks_p">false</entry>
+<entry key="app_preset_prof_preset_roots_p">com.base.constant.**
+com.base.login.controller.**
+com.base.login.domain.**
+com.base.login.filter.**
+com.personnel.department.bean.**
+com.personnel.department.controller.**
+com.personnel.department.mapper.**
+com.personnel.department.service.**
+com.personnel.employee.bean.**
+com.personnel.employee.controller.**
+com.personnel.employee.mapper.**
+com.personnel.employee.service.**
+com.personnel.message.bean.**
+com.personnel.message.controller.**
+com.personnel.message.mapper.**
+com.personnel.message.service.**
+com.personnel.vacation.bean.**
+com.personnel.vacation.controller.**
+com.personnel.vacation.mapper.**
+com.personnel.vacation.service.**
+com.system.auto.controller.**
+com.system.auto.service.**
+com.system.dictionary.bean.**
+com.system.dictionary.controller.**
+com.system.dictionary.mapper.**
+com.system.dictionary.service.**
+com.system.menu.bean.**
+com.system.menu.controller.**
+com.system.menu.mapper.**
+com.system.menu.service.**
+com.system.role.bean.**
+com.system.role.controller.**
+com.system.role.mapper.**
+com.system.role.service.**
+com.system.start.**
+com.system.template.process.bean.**
+com.system.template.process.controller.**
+com.system.template.process.mapper.**
+com.system.template.process.service.**
+com.system.template.record.bean.**
+com.system.template.record.mapper.**
+com.system.template.record.service.**
+com.system.user.bean.**
+com.system.user.controller.**
+com.system.user.mapper.**
+com.system.user.service.**
+com.utils.bean.**
+com.utils.guava.cache.**
+com.utils.json.**
+com.utils.quartz.bean.**
+com.utils.quartz.mapper.**
+com.utils.quartz.service.**
+com.utils.quartz.test.**
+com.utils.random.**
+com.utils.session.**
+</entry>
+<entry key="profiler.settings.instrument.empty.methods">false</entry>
+<entry key="myeclipse.profiling.mode">0</entry>
+<entry key="profiler.settings.istrument.getter.setter.methods">false</entry>
+<entry key="app_preset_prof_preset_samplingRate_s">100</entry>
+<entry key="profiler.settings.instr.scheme">1</entry>
+<entry key="profiler.settings.cpu.profiling.type">0</entry>
+<entry key="app_preset_prof_preset_selector"/>
+<entry key="app_preset_prof_preset_filterMode_s">true</entry>
+<entry key="app_preset_prof_preset_runnables_p">true</entry>
+<entry key="app_preset_prof_preset_refreshRate_s">1000</entry>
+<entry key="app_preset_prof_preset_filterMode_p">false</entry>
+<entry key="app_preset_prof_preset_memoryMode_p">true</entry>
+</properties>

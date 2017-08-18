@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper    
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.personnel.employee.mapper.EmployeeMapper">
+	 <resultMap type="com.personnel.employee.bean.Employee" id="EmployeeResult">
+	   <id column="id" property="id"/>
+       <result column="name" property="name"/>
+       <result column="company_name" property="companyName"/>
+       <result column="id_card" property="idCard"/>
+       <result column="emergency_name" property="emergencyName"/>
+       <result column="emergency_phone" property="emergencyPhone"/>
+       <result column="number" property="number"/>
+       <result column="indate" property="inDate"/>
+       <result column="outdate" property="outDate"/>
+       <result column="degree" property="degree"/>
+       <result column="post" property="post"/>
+       <result column="flag" property="flag"/>
+       <result column="phone" property="phone"/>
+       <result column="departmentId" property="departmentId"/>
+       
+       <result column="dname" property="departmentName"/>
+       <result column="cname" property="companyName"/>
+       <!-- 懒加载 
+        <result column="departmentId" property="departmentId"/>
+        <association property="department" javaType="com.personnel.department.bean.Department" column="departmentId"  
+            select="findDepartment">  
+        </association>-->
+        <!-- join 直接加载 -->
+        <!-- <association property="department" javaType="com.personnel.department.bean.Department" >  
+	        <id column="departmentId" property="id"/>  
+	        <result column="departmentName" property="name"/>  
+	        <result column="companyName" property="rootName"/>  
+	    </association> -->
+	 </resultMap>
+	 <!--  
+               懒加载   关联的查询语句, 
+    <select id="findDepartment" resultType="com.personnel.department.bean.Department">  
+        select * 
+          from personnel_department 
+         where id = #{id}     
+    </select>-->
+    
+	<select id="getPagingAll" resultMap="EmployeeResult" parameterType="int">
+		select pe.*,pd.name as dname,pd.root_name as cname 
+		  from personnel_employee pe
+     left join personnel_department pd 
+            on pe.departmentId=pd.id
+               <if test="flag != null and flag != '' ">
+         where pe.flag = true
+               </if>
+		 LIMIT #{offset},#{limit};
+	</select>
+	
+	<select id="countAllEmployee"  resultType="int" parameterType="int">
+		select count(*)  
+		  from personnel_employee
+		      <if test="flag != null and flag != '' ">
+         where flag = true
+               </if>
+	</select>
+	
+	<select id="selectConditionEmployee" resultMap="EmployeeResult" parameterType="hashmap">
+        select pe.*, pd.name as dname,pd.root_name as cname 
+          from personnel_employee pe 
+     left join personnel_department pd 
+            on pe.departmentId=pd.id
+         where 1=1 
+               <if test="name != null and name != '' ">
+           and pe.name = #{name}
+               </if>
+               <if test="number != null and number != '' ">
+           and pe.number = #{number}
+               </if>
+               <if test="idCard != null and idCard != '' ">
+           and pe.id_card = #{idCard}
+               </if>
+               <if test="degree != null and degree != '' ">
+           and pe.degree = #{degree}
+               </if>
+               <if test="flag != null and flag != '' ">
+           and pe.flag = #{flag}
+               </if>
+               <if test="departmentId != null and departmentId != '' ">
+           and pe.departmentId = #{departmentId}
+               </if>
+               <if test="inDate != null and inDate != '' ">
+           and pe.inDate = #{inDate}
+               </if>
+               <if test="outDate != null and outDate != '' ">
+           and pe.outDate = #{outDate}
+               </if>
+         LIMIT #{offset},#{limit};
+    </select>
+    
+	<select id="countConditionEmployee" resultType="int" parameterType="hashmap">
+        select count(*)  
+          from personnel_employee 
+         where 1=1 
+               <if test="name != null and name != '' ">
+           and name = #{name}
+               </if>
+               <if test="number != null and number != '' ">
+           and number = #{number}
+               </if>
+               <if test="idCard != null and idCard != '' ">
+           and id_card = #{idCard}
+               </if>
+               <if test="degree != null and degree != '' ">
+           and degree = #{degree}
+               </if>
+               <if test="flag != null and flag != '' ">
+           and flag = #{flag}
+               </if>
+               <if test="departmentId != null and departmentId != '' ">
+           and departmentId = #{departmentId}
+               </if>
+               <if test="inDate != null and inDate != '' ">
+           and inDate = #{inDate}
+               </if>
+               <if test="outDate != null and outDate != '' ">
+           and outDate = #{outDate}
+               </if>
+    </select>
+    
+    <insert id="saveEmployee" parameterType="com.personnel.employee.bean.Employee">
+   insert into personnel_employee(name,number,id_card,degree,departmentId,phone,post,indate,emergency_name,emergency_phone,flag)
+        values (#{name},#{number},#{idCard},#{degree},#{departmentId},#{phone},#{post},#{inDate},#{emergencyName},#{emergencyPhone},1);
+    </insert>
+    
+    <delete id="deleteEmployee" parameterType="int">
+        delete 
+          from personnel_employee 
+         where id = #{id};
+    </delete>
+    
+    <select id="selectEmployeeById" resultMap="EmployeeResult" parameterType="int">
+        select pe.*,pd.name as dname,pd.root_name as cname 
+          from personnel_employee pe
+     left join personnel_department pd 
+            on pe.departmentId=pd.id
+         where pe.id = #{id};
+    </select>
+    
+    <update id="updateEmployee" parameterType="com.personnel.employee.bean.Employee">
+        update personnel_employee
+           set name = #{name},number = #{number},id_card = #{idCard},degree = #{degree},
+               departmentId = #{departmentId},indate = #{inDate},post=#{post},
+               phone=#{phone},emergency_name=#{emergencyName},emergency_phone=#{emergencyPhone},flag=#{flag}
+               <if test="outDate != null and outDate != '' ">
+               ,outdate = #{outDate}
+               </if>
+         where id=#{id}; 
+    </update>
+</mapper>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper    
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.system.template.record.mapper.AuditRecordMapper">
+
+    <insert id="saveAuditRecord" parameterType="com.system.template.record.bean.AuditRecord">
+  insert into system_audit_record(billId,billTable,name,number,templateId,template_subId,level,roleId,employeeId,audit_status,audit_comment,auditedId,auditedDateTime,createdId,createDateTime)
+       values (#{billId}, #{billTable}, #{name}, #{number}, #{templateId}, #{template_subId}, #{level}, #{roleId}, #{employeeId}, #{audit_status}, #{audit_comment}, #{auditedId}, #{auditedDateTime}, #{createdId}, now());
+    </insert>
+
+</mapper>

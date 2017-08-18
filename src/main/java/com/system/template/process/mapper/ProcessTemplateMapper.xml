@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper    
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.system.template.process.mapper.ProcessTemplateMapper">
+
+
+     
+     <select id="getPageProcess" resultType="com.system.template.process.bean.ProcessTemplate" >
+        select * 
+          from system_process_template
+         limit #{offset},#{limit}; 
+     </select>
+     
+     <select id="countProcess" resultType="int" >
+        select count(*)
+          from system_process_template ;
+     </select>
+     
+     <insert id="saveProcess" useGeneratedKeys="true" keyProperty="id"  parameterType="com.system.template.process.bean.ProcessTemplate">
+    insert into system_process_template(name,number,createdId,createDateTime)
+         values (#{name}, #{number}, #{createdId}, now());
+     </insert>
+     
+     <insert id="saveProcessSub" parameterType="com.system.template.process.bean.ProcessTemplateSub">
+    insert into system_process_template_sub(templateId, name, level, audit_sign, roleId, employeeId, interface_name)
+         values (#{templateId}, #{name}, #{level}, #{audit_sign}, #{roleId}, #{employeeId}, #{interfaceName} );
+     </insert>
+     
+     <select id="getPageConditionProcess" resultType="com.system.template.process.bean.ProcessTemplate">
+        select * 
+          from system_process_template 
+         where id = #{id} ;
+     </select>
+     
+     <select id="getPageConditionProcessSub" resultType="com.system.template.process.bean.ProcessTemplateSub">
+        select * 
+          from system_process_template_sub
+         where templateId = #{templateId};
+     </select>
+     
+     <delete id="deleteProcess">
+        delete 
+          from system_process_template 
+         where id = #{id} ;
+     </delete>
+     
+     <delete id="deleteProcessSub">
+        delete  
+          from system_process_template_sub
+         where templateId = #{templateId};
+     </delete>
+</mapper>

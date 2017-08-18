@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper    
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.system.dictionary.mapper.DictionaryMapper">
+
+    <select id="getAll" resultType="com.system.dictionary.bean.Dictionary">
+        select * 
+          from system_dictionary 
+      order by kind,sequence
+         limit #{offset},#{limit} ;
+    </select>
+    
+    <select id="countAll" resultType="int">
+        select count(*) 
+          from system_dictionary
+    </select>
+    
+    <insert id="addDictionaryBatch" parameterType="java.util.List">
+    insert into system_dictionary(kind,sequence,name,comment)
+         values 
+		         <foreach collection="list" index="index" item="dictionary" separator=",">
+		            (
+		             #{dictionary.kind},
+		             #{dictionary.sequence}, 
+		             #{dictionary.name}, 
+		             #{dictionary.comment}
+		             )
+		         </foreach>
+    </insert>
+    
+    <select id="editDictionary" resultType="com.system.dictionary.bean.Dictionary" parameterType="int">
+        select * 
+          from system_dictionary 
+         where kind = 
+             (
+        select kind 
+          from system_dictionary 
+         where id = #{id}
+             );
+    </select>
+    
+    <update id="updateDictionary" parameterType="com.system.dictionary.bean.Dictionary">
+        update system_dictionary 
+         <set>
+               name = #{name},
+               kind = #{kind},
+               sequence = #{sequence},
+               comment = #{comment}
+         </set>
+          where id = #{id};
+    </update>
+    
+    <delete id="deleteDictionary" parameterType="int">
+         delete 
+           from system_dictionary 
+         where id = #{id};
+    </delete>
+    
+    <select id="getselectCondition" resultType="com.system.dictionary.bean.Dictionary">
+        select *
+          from system_dictionary
+         where 1=1 
+               <if test="name != null and name !='' ">
+                and name = #{name}
+               </if>
+                <if test="kind != null and kind != '' ">
+                and kind = #{kind } 
+                </if>
+      order by kind,sequence
+         limit #{offset},#{limit} ;
+    </select>
+    
+    <select id="countByselect" resultType="int">
+        select count(*) 
+          from system_dictionary
+         where 1=1 
+               <if test="name != null and name !='' ">
+                and name = #{name}
+               </if>
+                <if test="kind != null and kind != '' ">
+                and kind = #{kind } 
+                </if>
+    </select>
+</mapper>

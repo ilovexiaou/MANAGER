@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper    
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.personnel.message.mapper.MessageMapper">
+    
+    <select id="getPageMessage" resultType="com.personnel.message.bean.Message">
+    select * 
+      from personnel_message 
+     LIMIT #{offset},#{limit};
+    </select>
+    
+    <select id="countAllMessage" resultType="int">
+    select count(*)
+      from personnel_message 
+    </select>
+    
+    <insert id="saveMessage" parameterType="com.personnel.message.bean.Message">
+    insert into personnel_message(name,comment,createdId,createDateTime) 
+         values (#{name}, #{comment}, #{createdId}, now());
+    </insert>
+</mapper>

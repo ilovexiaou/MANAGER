@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper    
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.utils.quartz.mapper.AutoTaskMapper">
+
+<select id="getAll" resultType="com.utils.quartz.bean.AutoTask">
+    select *
+      from system_auto_task
+</select>
+
+<select id="getAllbyPaging" resultType="com.utils.quartz.bean.AutoTask">
+    select *
+      from system_auto_task
+     limit #{offset},#{limit} ;
+</select>
+
+<select id="countAll" resultType="int">
+    select count(*)
+      from system_auto_task
+</select>
+
+<insert id="saveAutoTask" parameterType="com.utils.quartz.bean.AutoTask">
+    insert into system_auto_task(name,crom_time,taskId,task_table,remark,createdId,createDateTime)
+         values (#{name}, #{crom_time}, #{taskId}, #{task_table}, #{remark},  #{createdId},now())
+</insert>
+
+<delete id="deleteAutoTask">
+    delete 
+      from system_auto_task
+     where id = #{id}
+</delete>
+
+<select id="findAutoTask" resultType="com.utils.quartz.bean.AutoTask">
+    select * 
+      from system_auto_task
+     where id = #{id}
+</select>
+</mapper>
